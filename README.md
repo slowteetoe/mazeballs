@@ -1,0 +1,3 @@
+MazeBalls!
+===
+Intention of this project is to use a webcam, Sphero, a sprinkling of OpenCV and some Ruby magic to allow a Sphero to self-navigate a maze taped on the floor.  We'll see how that goes... 
