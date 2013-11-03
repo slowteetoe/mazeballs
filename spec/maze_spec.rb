@@ -37,4 +37,20 @@ describe 'mazes' do
     expect { m.at(2,2) }.to raise_error
   end
 
+  describe "calculating simple distances" do
+    $m = Maze.new(10,10)
+    it "adjacent cells to the right should be 1 pt away" do
+      $m.distance_between( [0,0], [0,1] ).should == 1
+    end
+    it "adjacent cells below should be 1 pt away" do
+      $m.distance_between( [0,0], [1,0] ).should == 1
+    end
+    it "should be 2 pts away for a diagnol (since we're not permitting them)" do
+      $m.distance_between( [0,0], [1,1] ).should == 2
+    end
+    it "should be 1 pt away for an adjacent cell to the left" do
+      $m.distance_between([0,1], [0,0]).should == 1
+    end
+  end
+
 end

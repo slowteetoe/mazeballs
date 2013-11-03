@@ -24,6 +24,11 @@ class Maze
     m
   end
 
+  # this assumes all points are reachable
+  def distance_between(a, b)
+    (b[0] - a[0]).abs + (b[1] - a[1]).abs
+  end
+
   def to_ascii
     maze = ""
     (0...@rows).each do |r|
