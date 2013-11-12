@@ -1,27 +1,23 @@
+require 'cell'
+
 class Maze
 
-  attr_accessor :rows, :cols, :m
+  attr_accessor :rows, :cols, :m, :starting_location
 
-	def initialize(rows=0, cols=0)
-    @rows = rows
-    @cols = cols
-    @m = Array.new(rows) { |i| Array.new(cols) {|c| '.' } }
-  end
-
-  def initialize!(descr)
+  def initialize(descr)
     a = descr.split("\n")
-    rows = a.size
-    cols = a[0].size
+    @rows = a.size
+    @cols = a[0].size
     a.each do |r|
-      raise "All rows must have the same number of cells" if r.size != cols
+      raise "All rows must have the same number of cells" if r.size != @cols
     end
-    m = Maze.new(rows, cols)
+    @m = Array.new( @rows ) { Array.new(@cols) }
     a.each_with_index do |val, row|
       val.split("").each_with_index do |c, col|
-        m.m[row][col] = c
+        @m[row][col] = Cell.new(c)
+        @starting_location = [row, col] if c.eql? "s"
       end
     end
-    m
   end
 
   # this assumes all points are reachable
@@ -33,7 +29,7 @@ class Maze
     maze = ""
     (0...@rows).each do |r|
       (0...@cols).each do |c|
-        maze << @m[r][c]
+        maze << @m[r][c].to_s
       end
       maze << "\n"
     end
@@ -43,7 +39,5 @@ class Maze
   def at(x,y)
     @m[x][y]
   end
-
-  private
 
 end
