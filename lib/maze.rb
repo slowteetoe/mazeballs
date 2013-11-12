@@ -8,14 +8,12 @@ class Maze
     a = descr.split("\n")
     @rows = a.size
     @cols = a[0].size
-    a.each do |r|
-      raise "All rows must have the same number of cells" if r.size != @cols
-    end
-    @m = Array.new( @rows ) { Array.new(@cols) }
+    validate_maze_definition a
+    @m = Array.new(@rows) { Array.new(@cols) }
     a.each_with_index do |val, row|
-      val.split("").each_with_index do |c, col|
+      val.split('').each_with_index do |c, col|
         @m[row][col] = Cell.new(c)
-        @starting_location = [row, col] if c.eql? "s"
+        @starting_location = [row, col] if c.eql? 's'
       end
     end
   end
@@ -26,7 +24,7 @@ class Maze
   end
 
   def to_ascii
-    maze = ""
+    maze = ''
     (0...@rows).each do |r|
       (0...@cols).each do |c|
         maze << @m[r][c].to_s
@@ -36,8 +34,16 @@ class Maze
     maze.chomp  # get rid of the trailing \n
   end
 
-  def at(x,y)
+  def at(x, y)
     @m[x][y]
   end
+
+  private
+
+    def validate_maze_definition(a)
+      a.each do |r|
+        fail 'All rows must have the same number of cells' if r.size != @cols
+      end
+    end
 
 end
