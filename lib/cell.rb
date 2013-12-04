@@ -1,11 +1,16 @@
 class Cell
-  attr_accessor :token
+  attr_accessor :token, :fscore, :parent, :coord
 
-  def initialize(token = '.')
+  def initialize(token = '.', coord)
     @token = token
+    @coord = coord
+  end
+
+  def details
+	"#{coord} : #{token}, parent is #{parent}"
   end
 
   def to_s
-    token
+    @token
   end
 end
