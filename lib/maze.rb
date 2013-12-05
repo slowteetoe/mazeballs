@@ -4,12 +4,12 @@ class Maze
 
   attr_accessor :num_rows, :num_cols, :m, :starting_location, :goal
 
-  N = [0, -1]
-  E = [1, 0]
-  S = [0, 1]
-  W = [-1, 0]
-
-  DIRECTIONS = [N, E, S, W]
+  DIRECTIONS = {
+    north: [0, -1],
+    east: [1, 0],
+    south: [0, 1],
+    west: [-1, 0]
+  }
 
   ROCKS = '*'
 
@@ -42,7 +42,7 @@ class Maze
 
   def neighbors_for( (x, y) )
     neighbors = []
-    DIRECTIONS.each do |d|
+    DIRECTIONS.values.each do |d|
       (dx,dy) = d
       candidate = [x + dx, y + dy]
       if valid_cell(candidate) && traversible?( at(candidate.first, candidate.last).token )
@@ -69,6 +69,22 @@ class Maze
 
   def at(x, y)
     @m[x][y]
+  end
+
+  def self.coords_to_directions(coords = [])
+    return [] if coords.empty? || coords.length < 2
+    directions = []
+    prev = nil
+    coords.each do |this_coord|
+      if prev.nil?
+        prev = this_coord
+        next
+      end
+      delta = [ (this_coord.first - prev.first), (this_coord.last - prev.last) ]
+      directions << DIRECTIONS.key(delta)
+      prev = this_coord
+    end
+    directions
   end
 
   private

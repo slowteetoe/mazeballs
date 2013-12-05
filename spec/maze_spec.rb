@@ -86,4 +86,24 @@ describe 'dealing with mazes' do
     end
   end
 
+  describe 'translating coords to directions' do
+    it 'should indicate there is nothing to do if coords are empty' do
+      Maze.coords_to_directions([]).should eql []
+    end
+
+    it 'should indicate there is nothing to do if there is only one coord' do
+      Maze.coords_to_directions([[0, 0]]).should eql []
+    end
+
+    it 'should detect a northern movement' do
+      Maze.coords_to_directions([[2, 2], [2, 1]]).should eql [:north]
+    end
+
+    it 'should translate a complicated set of coords to directions' do
+      Maze.coords_to_directions([[0, 0], [0, 1], [1, 1], [1, 2], [1, 3], [2, 3], [3, 3], [3, 2], [3, 1], [3, 0], [2, 0]]).should eql [
+        :south, :east, :south, :south, :east, :east, :north, :north, :north, :west
+      ]
+    end
+  end
+
 end
